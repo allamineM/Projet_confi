@@ -1,26 +1,36 @@
-
 #!/bin/bash
 
-# Vérifier si une ville a été fournie en argument
-if [ -z "$1" ]; then
-    echo "Usage : ./Extracteur_Météo.sh <ville>"
+# Vérification de l'argument (la ville)
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <ville>"
     exit 1
 fi
 
-VILLE=$1
+VILLE="$1"
+FICHIER="meteo.txt"
+METEO_BRUTE="meteo_brute.txt"
 
-# Utiliser curl pour récupérer les informations météorologiques brutes de wttr.in
-METEO=$(curl -s "wttr.in/$VILLE?format=3")
+# 1. Récupérer les données météorologiques
+echo "Récupération des données pour la ville : $VILLE"
+curl -s "wttr.in/$VILLE?format=3" > "$METEO_BRUTE"
+echo "Données récupérées :"
+cat "$METEO_BRUTE"
 
-# Vérifier si la requête a réussi
-if [ -z "$METEO" ]; then
-    echo "Erreur : Impossible de récupérer les informations météorologiques pour $VILLE."
+# 2. Extraire la température actuelle et la prévision pour le lendemain
+TEMP_ACTUELLE=$(grep -o '[0-9]*°C' "$METEO_BRUTE" | head -n 1)
+TEMP_PREVISION=$(grep -o '[0-9]*°C' "$METEO_BRUTE" | tail -n 1)
+
+# 3. Formater la date et l'heure actuelles
+DATE=$(date +"%Y-%m-%d")
+HEURE=$(date +"%H:%M")
+
+# Vérifier les températures extraites
+if [ -z "$TEMP_ACTUELLE" ] || [ -z "$TEMP_PREVISION" ]; then
+    echo "Erreur : Impossible d'extraire les températures."
     exit 1
 fi
 
-# Afficher la météo dans le terminal
-echo "Météo actuelle pour $VILLE : $METEO"
-
-# Sauvegarder les informations dans un fichier meteo.txt
-echo "$(date '+%Y-%m-%d %H:%M') - $VILLE : $METEO" >> meteo.txt
+# 4. Enregistrer les informations dans le fichier meteo.txt
+echo "$DATE - $HEURE - $VILLE : $TEMP_ACTUELLE - $TEMP_PREVISION" >> "$FICHIER"
+echo "Informations enregistrées dans $FICHIER"
 
