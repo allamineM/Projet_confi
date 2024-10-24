@@ -12,12 +12,11 @@ Ce projet a pour objectif de développer un script Shell qui permet d'extraire e
   
 - **Formatage des données** : Les informations récupérées sont formatées de manière lisible, incluant la date, l'heure, le nom de la ville, la température actuelle et la prévision pour le lendemain.
 
-- **Sauvegarde des résultats** : Les informations formatées sont enregistrées dans un fichier texte (`meteo.txt`), facilitant ainsi une consultation ultérieure.
+- **Sauvegarde des résultats** : Les informations sont enregistrées dans un fichier texte (meteo.txt) pour une consultation future.
 
 ## Utilisation
 
 Pour exécuter le script, ouvrez un terminal et utilisez la commande suivante :
 
-```bash
 ./Extracteur_Météo.sh <ville>
 
