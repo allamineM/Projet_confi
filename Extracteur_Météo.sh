@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Vérification de l'argument (la ville)
 if [ "$#" -ne 1 ]; then
     echo "Usage: $0 <ville>"
