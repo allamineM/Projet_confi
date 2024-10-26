@@ -18,5 +18,5 @@ Ce projet a pour objectif de développer un script Shell qui permet d'extraire e
 
 Pour exécuter le script, ouvrez un terminal et utilisez la commande suivante :
 
-./Extracteur_Météo.sh <ville>
+./Extracteur_Météo.sh ville
 
